@@ -1,0 +1,36 @@
+name: Release macOS build (unsigned)
+
+on:
+  push:
+    tags: ["v*"]          # build when you push a version tag
+  workflow_dispatch:      # or run manually from Actions tab
+
+jobs:
+  release:
+    runs-on: macos-14      # Apple-silicon runner; use 13 for Intel
+    steps:
+      - uses: actions/checkout@v4
+
+      # 1. Build the .app
+      - name: Build archive
+        run: |
+          xcodebuild -scheme AutoScreenshooter \
+            -configuration Release \
+            -derivedDataPath build \
+            -destination 'generic/platform=macOS' \
+            ONLY_ACTIVE_ARCH=NO \
+            build
+
+      # 2. Zip the bundle
+      - name: Zip artifact
+        run: |
+          APP_PATH=$(find build -name AutoScreenshooter.app -depth 2 | head -n1)
+          ditto -c -k --sequesterRsrc --keepParent "$APP_PATH" AutoScreenshooter.zip
+
+      # 3. Create/attach to GitHub Release and upload
+      - name: Create Release & upload asset
+        uses: ncipollo/release-action@v1
+        with:
+          artifacts: "AutoScreenshooter.zip"
+          artifactContentType: application/zip
+          generateReleaseNotes: true
