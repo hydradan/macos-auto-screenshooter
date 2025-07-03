@@ -1,19 +1,22 @@
+# .github/workflows/release.yml
 steps:
   - uses: actions/checkout@v4
 
-  - name: Build with SwiftPM
-    run: swift build -c release
-
-  - name: Make .app bundle
+  - name: Build .app (unsigned)
     run: |
-      chmod +x make_app.sh
-      ./make_app.sh            # creates .build/release/AutoScreenshooter.app
+      xcodebuild -scheme AutoScreenshooter \
+                 -configuration Release \
+                 CODE_SIGNING_ALLOWED=NO \
+                 CODE_SIGNING_REQUIRED=NO \
+                 CODE_SIGN_IDENTITY="" \
+                 -derivedDataPath build \
+                 build
 
   - name: Zip bundle
     run: |
-      ditto -c -k --sequesterRsrc --keepParent \
-            .build/release/AutoScreenshooter.app \
-            AutoScreenshooter.zip
+      APP_PATH="build/Build/Products/Release/AutoScreenshooter.app"
+      [ -d "$APP_PATH" ] || { echo "::error ::Bundle not found"; exit 1; }
+      ditto -c -k --sequesterRsrc --keepParent "$APP_PATH" AutoScreenshooter.zip
 
   - name: Create Release & upload
     uses: ncipollo/release-action@v1
