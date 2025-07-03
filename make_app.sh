@@ -11,7 +11,7 @@ mkdir -p "$BUNDLE/Contents/MacOS" "$BUNDLE/Contents/Resources"
 
 # 2. Copy executable and icon
 cp "$EXEC"             "$BUNDLE/Contents/MacOS/$APP_NAME"
-cp Resources/*.icns    "$BUNDLE/Contents/Resources/"
+cp Sources/AutoScreenshooter/Resources/*.icns "$BUNDLE/Contents/Resources/" || echo "Warning: No icon files found, continuing without them."
 
 # 3. Write Info.plist that points at the icon
 cat >"$BUNDLE/Contents/Info.plist" <<EOF
