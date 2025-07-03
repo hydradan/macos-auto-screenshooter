@@ -2,6 +2,9 @@
 
 A powerful macOS app for automating screenshot capture with advanced features.
 
+<img width="609" alt="autoscreenshooter" src="https://github.com/user-attachments/assets/6306e34a-6476-49af-bd39-a54dc42023f7" />
+
+
 ## Features
 
 - **Automated Screenshot Capture**: Set the number of screenshots to take automatically
