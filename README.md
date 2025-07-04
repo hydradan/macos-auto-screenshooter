@@ -25,7 +25,12 @@ A powerful macOS app for automating screenshot capture with advanced features.
 - Screen Recording permission (will be requested on first launch)
 - Accessibility permission for keypress automation (optional, only if using auto-keypress)
 
-## Building and Running
+## Installation
+
+1. Download the latest release from the [Releases page](https://github.com/underhubber/macos-auto-screenshooter/releases)
+2. Extract and open the downloaded .app bundle
+
+## Building from Source
 
 1. Make sure you have Xcode installed
 2. Clone the repository
